@@ -10,7 +10,7 @@ export default function Home() {
   const [editando, setEditando] = useState(null);
 
   const fetchTarefas = async () => {
-    const res = await fetch(`http://localhost:5039//tarefas`);
+    const res = await fetch(`${API_URL}/tarefas`);
     const data = await res.json();
     setTarefas(data);
   };
@@ -25,14 +25,14 @@ export default function Home() {
     const tarefa = { titulo, descricao, concluida: false };
 
     if (editando) {
-      await fetch(`http://localhost:5039//tarefas/${editando}`, {
+      await fetch(`${API_URL}/tarefas/${editando}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tarefa),
       });
       setEditando(null);
     } else {
-      await fetch(`http://localhost:5039//tarefas`, {
+      await fetch(`${API_URL}/tarefas`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tarefa),
@@ -45,7 +45,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:5039//tarefas/${id}`, {
+    await fetch(`${API_URL}/tarefas/${id}`, {
       method: 'DELETE',
     });
     fetchTarefas();

@@ -15,6 +15,7 @@ namespace ProjetoTarefas.Controllers
             _appDbContext = appDbContext;
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CriarTarefa([FromBody] Tarefa tarefa)
         {
@@ -28,13 +29,90 @@ namespace ProjetoTarefas.Controllers
 
             return Created("Tarefa adicionado com sucesso!", tarefa);
         }
+        
+//Collections        
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tarefa>>> ObterTarefas() //Async pois o método não é instantaneo 
+        [HttpGet("list")]
+        public async Task<ActionResult<List<Tarefa>>> ObterTodasTarefas()
         {
             var tarefas = await _appDbContext.Tarefas.ToListAsync();
+            return tarefas;
+        }
+
+        [HttpGet("Id-Titulo")]
+        public async Task<ActionResult<Dictionary<int, string>>> IdTitulo()
+        {
+            var tarefas = await _appDbContext.Tarefas.ToListAsync();
+            var mapa = tarefas.ToDictionary(t => t.Id, t => t.Titulo);
+            return mapa;
+        }
+
+        [HttpGet("Concluidas")]
+        public async Task<ActionResult<IEnumerable<Tarefa>>> TarefasConcluidas()
+        {
+           var tarefas = await _appDbContext.Tarefas.Where(t => t.Concluida == true).ToListAsync();
+
+            if (!tarefas.Any())
+                return NotFound("Nenhuma tarefa concluída encontrada.");
+
+           return Ok(tarefas);
+        }
+
+        [HttpGet("Nao concluidas")]
+        public async Task<ActionResult<IEnumerable<Tarefa>>> TarefasNaoConcluidas()
+        {
+           var tarefas = await _appDbContext.Tarefas.Where(t => t.Concluida == false).ToListAsync();
+
+            if (!tarefas.Any())
+           return NotFound("Nenhuma tarefa não concluída encontrada.");
+
             return Ok(tarefas);
         }
+
+//Linq
+
+        [HttpGet("Buscar Descricao")]
+        public async Task<ActionResult<IEnumerable<string>>> BuscarDescricao(string palavra)
+        {
+            if (palavra == null)
+            {
+            return BadRequest("A palavra-chave não pode ser nula.");
+            }
+
+        var descricoes = await _appDbContext.Tarefas
+        .Where(t => t.Descricao.Contains(palavra)).Select(t => t.Descricao).ToListAsync();
+
+            return descricoes.Any() ? Ok(descricoes) : NotFound("Nenhuma descrição encontrada com essa palavra-chave.");
+        }
+
+        [HttpGet("Ordenar Por Titulo")]
+        public async Task<ActionResult<IEnumerable<Tarefa>>> OrdenarPorTitulo()
+        {
+            var tarefas = await _appDbContext.Tarefas.OrderBy(t => t.Titulo).ToListAsync();
+
+            return Ok(tarefas);
+        }
+
+            [HttpGet("Primeira Não Concluida")]
+        public async Task<ActionResult<Tarefa>> PrimeiraNaoConcluida()
+        {
+            var tarefa = await _appDbContext.Tarefas.Where(t => !t.Concluida).FirstOrDefaultAsync();
+
+            if (tarefa == null)
+                return NotFound("Nenhuma tarefa não concluída encontrada.");
+
+            return Ok(tarefa);
+        }
+
+        [HttpGet("Contar Concluidas")]
+        public async Task<ActionResult<int>> ContarConcluidas()
+        {
+            int total = await _appDbContext.Tarefas.CountAsync(t => t.Concluida);
+
+            return Ok(total);
+        }
+
+//Métodos de consulta padrão
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Tarefa>> ObterTarefa(int id) 
@@ -83,7 +161,7 @@ namespace ProjetoTarefas.Controllers
 
             await _appDbContext.SaveChangesAsync();
 
-            return Ok("Personagem deletado com sucesso!"); 
+            return Ok("Tarefa deletado com sucesso!"); 
         }
     }
 }
