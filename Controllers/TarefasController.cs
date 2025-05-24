@@ -30,6 +30,14 @@ namespace ProjetoTarefas.Controllers
             return Created("Tarefa adicionado com sucesso!", tarefa);
         }
         
+        [HttpGet]
+        public async Task<ActionResult<List<Tarefa>>> ObterTodasTarefasDireto()
+        {
+            var tarefas = await _appDbContext.Tarefas.ToListAsync();
+           return Ok(tarefas);
+        }
+
+
 //Collections        
 
         [HttpGet("list")]
@@ -146,23 +154,24 @@ namespace ProjetoTarefas.Controllers
         
 
 
-        [HttpDelete("{id}")]
+[HttpDelete("{id}")]
+public async Task<IActionResult> DeletarTarefa(int id)
+{
+    Console.WriteLine($"Tentando deletar tarefa com ID: {id}");
 
-        public async Task<IActionResult> DeletePersonagem(int id)
-        {
-            var tarefa = await _appDbContext.Tarefas.FindAsync(id);
+    var tarefa = await _appDbContext.Tarefas.FindAsync(id);
+    if (tarefa == null)
+    {
+        Console.WriteLine("Tarefa não encontrada.");
+        return NotFound("Tarefa não encontrada.");
+    }
 
-            if (tarefa == null)
-            {
-                return NotFound("Tarefa não encontrada.");
-            }
+    _appDbContext.Tarefas.Remove(tarefa);
+    await _appDbContext.SaveChangesAsync();
 
-            _appDbContext.Tarefas.Remove(tarefa);
-
-            await _appDbContext.SaveChangesAsync();
-
-            return Ok("Tarefa deletado com sucesso!"); 
-        }
+    Console.WriteLine("Tarefa deletada com sucesso!");
+    return Ok("Tarefa deletada com sucesso!");
+}
     }
 }
 

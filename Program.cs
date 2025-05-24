@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAll");
+app.UseCors("NextJsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 
