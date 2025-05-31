@@ -33,10 +33,10 @@ Esta API simula o gerenciamento de tarefas em um sistema de organização pessoa
 ⚙️ Passos
 Copiar código
 # 1. Clone o repositório
-git clone https://github.com/usuario/repositorio
+git clone https://github.com/Giovanny1603/TarefasAPI
 
 # 2. Acesse a pasta do projeto
-cd nome-da-pasta
+cd. C:\Users\Giovanny\ProjetoTarefas> 
 
 # 3. Restaure os pacotes
 dotnet restore
@@ -45,4 +45,14 @@ dotnet restore
 dotnet ef database update
 
 # 5. Execute a aplicação
-dotnet run
+Run project associated with this file
+npm run dev
+
+---
+
+🌐 Acessando o Swagger
+Após rodar o projeto, acesse:
+
+http://localhost:3000
+
+Aqui você poderá testar todos os endpoints da API.

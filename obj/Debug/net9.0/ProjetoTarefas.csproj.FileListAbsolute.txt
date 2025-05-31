@@ -44,3 +44,7 @@ C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\Mono.TextTemplating.dll
 C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\System.CodeDom.dll
+C:\Users\Giovanny\ProjetoTarefas\obj\Debug\net9.0\ProjetoTarefas.sourcelink.json
+C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\FrontendTarefas\jsconfig.json
+C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\FrontendTarefas\package-lock.json
+C:\Users\Giovanny\ProjetoTarefas\bin\Debug\net9.0\FrontendTarefas\package.json
