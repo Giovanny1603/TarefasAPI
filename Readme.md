@@ -45,13 +45,14 @@ dotnet restore
 dotnet ef database update
 
 # 5. Execute a aplicação
-dotnet run
+Run project associated with this file
+npm run dev
 
 ---
 
 🌐 Acessando o Swagger
 Após rodar o projeto, acesse:
 
-http://localhost:5039/swagger
+http://localhost:3000
 
 Aqui você poderá testar todos os endpoints da API.

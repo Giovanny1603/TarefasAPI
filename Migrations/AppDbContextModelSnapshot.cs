@@ -18,24 +18,66 @@ namespace ProjetoTarefas.Migrations
                 .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Categoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
             modelBuilder.Entity("ProjetoTarefas.Models.Tarefa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Concluida")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<int>("Prioridade")
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId");
+
                     b.ToTable("Tarefas");
+                });
+
+            modelBuilder.Entity("ProjetoTarefas.Models.Tarefa", b =>
+                {
+                    b.HasOne("Categoria", "Categoria")
+                        .WithMany("Tarefas")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("Categoria", b =>
+                {
+                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }
